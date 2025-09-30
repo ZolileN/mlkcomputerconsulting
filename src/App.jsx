@@ -952,7 +952,7 @@ function App() {
           </div>
           
           <div className="border-t border-border mt-8 pt-8 text-center text-muted-foreground">
-            <p>&copy; 2025 MLK Computer. All rights reserved. Built with ❤️ and modern web technologies.</p>
+            <p>&copy; 2025 MLK Computer Consulting. All rights reserved. Built with ❤️ and modern web technologies.</p>
           </div>
         </div>
       </footer>
