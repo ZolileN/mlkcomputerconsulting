@@ -85,7 +85,7 @@ function App() {
   useEffect(() => {
     // Scroll spy for active section
     const handleScroll = () => {
-      const sections = ['home', 'about', 'services', 'process', 'facts', 'contact']
+      const sections = ['home', 'about', 'services', 'process', 'work', 'facts', 'contact']
       const scrollPosition = window.scrollY + 100
 
       for (const section of sections) {
@@ -362,7 +362,7 @@ function App() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {['home', 'about', 'services', 'process', 'facts', 'contact'].map((item) => (
+            {['home', 'about', 'services', 'process', 'work', 'facts', 'contact'].map((item) => (
               <motion.button
                 key={item}
                 whileHover={{ scale: 1.05 }}
@@ -415,7 +415,7 @@ function App() {
               className="md:hidden bg-background border-t border-border fixed top-16 left-0 right-0 z-50 overflow-hidden shadow-lg"
             >
               <div className="container mx-auto px-4 py-4 space-y-2 bg-background">
-                {['home', 'about', 'services', 'process', 'facts', 'contact'].map((item) => (
+                {['home', 'about', 'services', 'process', 'work', 'facts', 'contact'].map((item) => (
                   <button
                     key={item}
                     onClick={() => scrollToSection(item)}
@@ -672,8 +672,179 @@ function App() {
         </div>
       </section>
 
+      {/* Work Section */}
+      <section id="work" className="py-20">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Recent Projects</h2>
+            <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
+            <p className="text-muted-foreground max-w-3xl mx-auto">
+              Explore some of our recent projects and see how we've helped businesses transform their digital presence.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Project 1 */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+            >
+              <div className="overflow-hidden h-64">
+                <img 
+                  src="/cocare.png" 
+                  alt="Cocare Project" 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-2">Cocare Health Solutions</h3>
+                <p className="text-muted-foreground mb-4">A comprehensive healthcare management system for patient care coordination.</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Web App</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Healthcare</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Project 2 */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+            >
+              <div className="overflow-hidden h-64">
+                <img 
+                  src="/idbanc.png" 
+                  alt="iDBanc Project" 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-2">iDentityBanc</h3>
+                <p className="text-muted-foreground mb-4">Digital iDentity Verification APP.</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Mobile App</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Finance</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Project 3 */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+            >
+              <div className="overflow-hidden h-64">
+                <img 
+                  src="/andrea.png" 
+                  alt="Andrea Project" 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-2">Andrea Dondolo</h3>
+                <p className="text-muted-foreground mb-4">award winning actress.</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Writter</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Actress</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Project 4 */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+            >
+              <div className="overflow-hidden h-64">
+                <img 
+                  src="/lasos.png" 
+                  alt="LaSOS Project" 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-2">LaSosRanelo Greeen Solutions</h3>
+                <p className="text-muted-foreground mb-4">A purpose driven communications for a sustainable future.</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Sustainability</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Marketing & Communication</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Project 5 */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+            >
+              <div className="overflow-hidden h-64">
+                <img 
+                  src="/njozela.png" 
+                  alt="Njozela Project" 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-2">Njozela Attorneys</h3>
+                <p className="text-muted-foreground mb-4">Providing Legal Services in Khayelitsha Since 2002.</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Legal Services</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Justice</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Project 6 */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              className="group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+            >
+              <div className="overflow-hidden h-64">
+                <img 
+                  src="/uhuru.png" 
+                  alt="Uhuru Project" 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-2">UhuruAdvance</h3>
+                <p className="text-muted-foreground mb-4">Electricity Advance System for South Africans.</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Web App</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Social Good</span>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Fun Facts Section */}
-      <section id="facts" className="py-20">
+      <section id="facts" className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
