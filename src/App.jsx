@@ -110,11 +110,23 @@ function App() {
   }
 
   const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
-    setIsMenuOpen(false)
+    // Close the mobile menu
+    setIsMenuOpen(false);
+    
+    // Add a small delay to ensure the menu is closed before scrolling
+    setTimeout(() => {
+      // Handle 'home' specially since it's the root path
+      const elementId = sectionId === 'home' ? '' : sectionId;
+      const element = elementId ? document.getElementById(elementId) : document.documentElement;
+      
+      if (element) {
+        // Use scrollIntoView with smooth behavior
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }, 100);
   }
 
   const animateCounters = () => {
@@ -400,17 +412,14 @@ function App() {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="md:hidden bg-background border-t border-border fixed top-16 left-0 right-0 z-50 overflow-hidden"
+              className="md:hidden bg-background border-t border-border fixed top-16 left-0 right-0 z-50 overflow-hidden shadow-lg"
             >
-              <div className="container mx-auto px-4 py-4 space-y-4 bg-background">
+              <div className="container mx-auto px-4 py-4 space-y-2 bg-background">
                 {['home', 'about', 'services', 'process', 'facts', 'contact'].map((item) => (
                   <button
                     key={item}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(item);
-                    }}
-                    className="block w-full text-left capitalize py-3 px-4 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                    onClick={() => scrollToSection(item)}
+                    className="block w-full text-left capitalize py-3 px-4 rounded-lg text-foreground hover:bg-muted/50 transition-colors text-base font-medium"
                   >
                     {item}
                   </button>
