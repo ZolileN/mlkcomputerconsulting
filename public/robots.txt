@@ -1,0 +1,19 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://mlkcomputer.com/sitemap.xml
+
+# Disallow admin and API routes
+Disallow: /admin/
+Disallow: /api/
+
+# Allow all other pages
+Allow: /$
+Allow: /about
+Allow: /services
+Allow: /contact
+Allow: /portfolio
+
+# Crawl-delay: 10  # Uncomment if needed to limit crawl rate
