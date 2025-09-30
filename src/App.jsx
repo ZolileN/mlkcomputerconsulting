@@ -32,9 +32,11 @@ import {
   CheckCircle,
   Star,
   Send,
-  ArrowUp
+  ArrowUp,
+  Download  // Add this import
 } from 'lucide-react'
 import BackToTop from './components/BackToTop';
+import TeamViewerDownload from './components/TeamViewerDownload'; // Add this import
 import './App.css'
 
 function App() {
@@ -397,14 +399,18 @@ function App() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-background border-t border-border"
+              transition={{ duration: 0.3 }}
+              className="md:hidden bg-background border-t border-border fixed top-16 left-0 right-0 z-50 overflow-hidden"
             >
-              <div className="container mx-auto px-4 py-4 space-y-4">
+              <div className="container mx-auto px-4 py-4 space-y-4 bg-background">
                 {['home', 'about', 'services', 'process', 'facts', 'contact'].map((item) => (
                   <button
                     key={item}
-                    onClick={() => scrollToSection(item)}
-                    className="block w-full text-left capitalize py-2 text-muted-foreground hover:text-foreground transition-colors"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(item);
+                    }}
+                    className="block w-full text-left capitalize py-3 px-4 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
                   >
                     {item}
                   </button>
@@ -706,16 +712,22 @@ function App() {
       <section id="contact" className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            transition={{ duration: 0.5 }}
+            className="max-w-4xl mx-auto text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Get In Touch</h2>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Ready to start your next project? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+            <h2 className="text-4xl font-bold mb-4">Get In Touch</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Have a project in mind or need technical assistance? Reach out to us and let's discuss how we can help.
             </p>
+            
+            {/* Add TeamViewer Download Button */}
+            <div className="mt-8">
+              <h3 className="text-lg font-medium mb-4">Need Remote Support?</h3>
+              <TeamViewerDownload />
+            </div>
           </motion.div>
 
           <div className="grid lg:grid-cols-2 gap-12">
