@@ -1115,9 +1115,66 @@ function App() {
             <div>
               <h4 className="font-semibold mb-4">Company</h4>
               <ul className="space-y-2 text-muted-foreground">
-                <li>About Us</li>
-                <li>Our Process</li>
-                <li>Contact</li>
+                <li>
+                  <a 
+                    href="#about" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection('about');
+                    }}
+                    className="hover:text-primary transition-colors cursor-pointer"
+                  >
+                    About Us
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="#services" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection('services');
+                    }}
+                    className="hover:text-primary transition-colors cursor-pointer"
+                  >
+                    Services
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="#process" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection('process');
+                    }}
+                    className="hover:text-primary transition-colors cursor-pointer"
+                  >
+                    Our Process
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="#work" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection('work');
+                    }}
+                    className="hover:text-primary transition-colors cursor-pointer"
+                  >
+                    Recent Projects
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="#contact" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection('contact');
+                    }}
+                    className="hover:text-primary transition-colors cursor-pointer"
+                  >
+                    Contact
+                  </a>
+                </li>
               </ul>
             </div>
             
