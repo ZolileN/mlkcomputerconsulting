@@ -709,7 +709,7 @@ function App() {
                 <h3 className="text-xl font-semibold mb-2">Cocare Health Solutions</h3>
                 <p className="text-muted-foreground mb-4">A comprehensive healthcare management system for patient care coordination.</p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Web App</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Data Quality</span>
                   <span className="px-3 py-1 bg-muted rounded-full text-sm">Healthcare</span>
                 </div>
               </div>
@@ -725,17 +725,17 @@ function App() {
             >
               <div className="overflow-hidden h-64">
                 <img 
-                  src="/idbanc.png" 
+                  src="/easytax.png" 
                   alt="iDBanc Project" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">iDentityBanc</h3>
-                <p className="text-muted-foreground mb-4">Digital iDentity Verification APP.</p>
+                <h3 className="text-xl font-semibold mb-2">EasyTax AI</h3>
+                <p className="text-muted-foreground mb-4">Navigate SARS filing with confidence. AI-powered guidance in plain language, 24/7.</p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Mobile App</span>
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Finance</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">SARS Compliance</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Tax</span>
                 </div>
               </div>
             </motion.div>
@@ -825,17 +825,17 @@ function App() {
             >
               <div className="overflow-hidden h-64">
                 <img 
-                  src="/uhuru.png" 
+                  src="/nexify.png" 
                   alt="Uhuru Project" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">UhuruAdvance</h3>
-                <p className="text-muted-foreground mb-4">Electricity Advance System for South Africans.</p>
+                <h3 className="text-xl font-semibold mb-2">Nexify</h3>
+                <p className="text-muted-foreground mb-4">Customer Support That Feels Human.</p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Web App</span>
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Social Good</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Conversational AI</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">E-Commerce</span>
                 </div>
               </div>
             </motion.div>
