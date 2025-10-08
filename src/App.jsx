@@ -775,17 +775,17 @@ function App() {
             >
               <div className="overflow-hidden h-64">
                 <img 
-                  src="/lasos.png" 
+                  src="/rentsafe.png" 
                   alt="LaSOS Project" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">LaSosRanelo Greeen Solutions</h3>
-                <p className="text-muted-foreground mb-4">A purpose driven communications for a sustainable future.</p>
+                <h3 className="text-xl font-semibold mb-2">Rent Safe Verification</h3>
+                <p className="text-muted-foreground mb-4">Platform for the RentSafe identity verification system.</p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Sustainability</span>
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Marketing & Communication</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Secure Rentals</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Trusted Identities</span>
                 </div>
               </div>
             </motion.div>
