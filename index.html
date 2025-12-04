@@ -32,8 +32,18 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
 
-    <!--HotJar Script-->
-    <script src="https://t.contentsquare.net/uxa/e6e19d825f69e.js"></script>
+     <!-- Critical CSS Inline -->
+    <style id="critical-css">
+      /* Minimal critical CSS for above-the-fold content */
+      body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+      /* Add other critical styles here */
+    </style>
+
+    <!-- Preload main CSS with fallback -->
+    <link rel="preload" href="/assets/index-CoZdhBbJ.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/assets/index-CoZdhBbJ.css"></noscript>
+    <!--HotJar Script
+    <script src="https://t.contentsquare.net/uxa/e6e19d825f69e.js"></script> -->
     
     <!-- Tawk.to Chat Widget 
     <script type="text/javascript">

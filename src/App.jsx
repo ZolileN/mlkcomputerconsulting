@@ -1,4 +1,4 @@
-  import { useState, useEffect } from 'react'
+  import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
@@ -82,27 +82,70 @@ function App() {
     return () => clearTimeout(timer)
   }, [])
 
-  useEffect(() => {
-    // Scroll spy for active section
-    const handleScroll = () => {
-      const sections = ['home', 'about', 'services', 'process', 'work', 'facts', 'contact']
-      const scrollPosition = window.scrollY + 100
+  // Cache section positions
+  const sectionPositions = useRef(new Map());
 
-      for (const section of sections) {
-        const element = document.getElementById(section)
-        if (element) {
-          const { offsetTop, offsetHeight } = element
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section)
-            break
-          }
-        }
+  // Cache section positions
+  const updateSectionPositions = useCallback(() => {
+    const sections = ['home', 'about', 'services', 'process', 'work', 'facts', 'contact'];
+    const positions = new Map();
+    
+    sections.forEach(section => {
+      const element = document.getElementById(section);
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        positions.set(section, {
+          top: rect.top + window.scrollY,
+          height: rect.height
+        });
+      }
+    });
+    
+    sectionPositions.current = positions;
+  }, []);
+
+  // Update positions on mount and window resize
+  useEffect(() => {
+    updateSectionPositions();
+    
+    const handleResize = () => {
+      updateSectionPositions();
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [updateSectionPositions]);
+
+  // Optimized scroll handler
+  const handleScroll = useCallback(() => {
+    const scrollPosition = window.scrollY + 100;
+    const positions = sectionPositions.current;
+    
+    for (const [section, { top, height }] of positions.entries()) {
+      if (scrollPosition >= top && scrollPosition < top + height) {
+        setActiveSection(section);
+        break;
       }
     }
+  }, []);
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  // Throttled scroll event
+  useEffect(() => {
+    let ticking = false;
+    
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [handleScroll]);
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode)
@@ -437,7 +480,10 @@ function App() {
             src="/hero-image.jpg" 
             alt="Hero Background" 
             className="w-full h-full object-cover"
-            loading="lazy"
+            loading="eager"
+            width={1920}
+            height={1080}
+            decoding="async"
           />
           <div className="absolute inset-0 bg-black/40" />
         </div>
