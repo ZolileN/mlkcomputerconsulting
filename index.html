@@ -40,8 +40,15 @@
     </style>
 
     <!-- Preload main CSS with fallback -->
-    <link rel="preload" href="/assets/index-CoZdhBbJ.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/assets/index-CoZdhBbJ.css"></noscript>
+      <link 
+        rel="stylesheet" 
+        href="/assets/index-CoZdhBbJ.css" 
+        media="print" 
+        onload="this.media='all'; this.onload=null;"
+      >
+      <noscript>
+        <link rel="stylesheet" href="/assets/index-CoZdhBbJ.css">
+      </noscript>
     <!--HotJar Script
     <script src="https://t.contentsquare.net/uxa/e6e19d825f69e.js"></script> -->
     
