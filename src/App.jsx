@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+  import { useState, useEffect } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
@@ -437,6 +437,7 @@ function App() {
             src="/hero-image.jpg" 
             alt="Hero Background" 
             className="w-full h-full object-cover"
+            loading="lazy"
           />
           <div className="absolute inset-0 bg-black/40" />
         </div>
@@ -703,6 +704,7 @@ function App() {
                   src="/cocare.png" 
                   alt="Cocare Project" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">
@@ -728,6 +730,7 @@ function App() {
                   src="/easytax.png" 
                   alt="iDBanc Project" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">
@@ -753,6 +756,7 @@ function App() {
                   src="/andrea.png" 
                   alt="Andrea Project" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">
@@ -778,6 +782,7 @@ function App() {
                   src="/rentsafe.png" 
                   alt="LaSOS Project" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">
@@ -803,6 +808,7 @@ function App() {
                   src="/njozela.png" 
                   alt="Njozela Project" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">
@@ -828,6 +834,7 @@ function App() {
                   src="/nexify.png" 
                   alt="Uhuru Project" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">
@@ -1056,7 +1063,7 @@ function App() {
                     <span>+27 (082) 531-9901</span>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <MapPin className="h-5 w-5 text-primary" />
+                    <MapPin className="h-7 w-7 text-primary" />
                     <span>The Bandwidth Barn Lookout Hill, Cnr Mew way & Spine road, Khayelitsha, Cape Town, South Africa</span>
                   </div>
                 </CardContent>
