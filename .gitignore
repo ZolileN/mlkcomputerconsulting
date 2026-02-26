@@ -52,3 +52,9 @@ Thumbs.db
 .next
 .nuxt
 .cache
+
+# Optimized images
+**/*.webp
+**/*.avif
+!public/**/*.webp
+!public/**/*.avif

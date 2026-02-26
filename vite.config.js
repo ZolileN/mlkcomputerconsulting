@@ -4,6 +4,8 @@ import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import viteCompression from 'vite-plugin-compression'
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
+
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -18,7 +20,21 @@ export default defineConfig(({ mode }) => ({
     createHtmlPlugin({
       minify: true,
     }),
-  ],
+    ViteImageOptimizer({
+       png: {
+      quality: 80,
+    },
+    jpg: {
+      quality: 80,
+    },
+    webp: {
+      lossless: false,
+    },
+    avif: {
+      lossless: false,
+    },
+  }),
+],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
