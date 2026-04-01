@@ -1254,7 +1254,7 @@ function App() {
           </div>
           
           <div className="border-t border-border mt-8 pt-8 text-center text-muted-foreground">
-            <p>© <script>document.write(new Date().getFullYear())</script> MLK Computer Consulting. All rights reserved. Built with ❤️ and modern web technologies.</p>
+            <p>© {new Date().getFullYear()} MLK Computer Consulting. All rights reserved. Built with ❤️ and modern web technologies.</p>
           </div>
         </div>
       </footer>
