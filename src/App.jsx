@@ -16,21 +16,15 @@ import {
   Users, 
   Award, 
   Server,
-  Search,
   MessageCircle,
   Mail,
   Phone,
   MapPin,
-  Coffee,
   TrendingUp,
-  FileCode,
-  Infinity,
   ChevronDown,
   Moon,
   Sun,
   ArrowRight,
-  CheckCircle,
-  Star,
   Send,
   ArrowUp,
   Download  // Add this import
@@ -61,14 +55,6 @@ function App() {
   const y1 = useTransform(scrollY, [0, 300], [0, 200])
   const y2 = useTransform(scrollY, [0, 300], [0, -100])
 
-  // Animated counters
-  const [counters, setCounters] = useState({
-    coffee: 0,
-    developers: 0,
-    lines: 339170,
-    loops: 0
-  })
-
   useEffect(() => {
     // Loading animation
     const timer = setTimeout(() => setIsLoading(false), 2000)
@@ -87,7 +73,7 @@ function App() {
 
   // Cache section positions
   const updateSectionPositions = useCallback(() => {
-    const sections = ['home', 'about', 'services', 'process', 'work', 'facts', 'contact'];
+    const sections = ['home', 'about', 'services', 'process', 'work', 'packages', 'contact'];
     const positions = new Map();
     
     sections.forEach(section => {
@@ -172,33 +158,6 @@ function App() {
     }, 100);
   }
 
-  const animateCounters = () => {
-    const targets = { 
-      coffee: 18500, 
-      developers: 18539500, 
-      lines: 339170, 
-      loops: 20000 
-    }
-    const duration = 2000
-    const steps = 60
-
-    Object.keys(targets).forEach(key => {
-      let current = key === 'lines' ? 0 : 0
-      const increment = (targets[key] - (key === 'lines' ? 0 : 0)) / steps
-      const timer = setInterval(() => {
-        current += increment
-        if (current >= targets[key]) {
-          current = targets[key]
-          clearInterval(timer)
-        }
-        setCounters(prev => ({ 
-          ...prev, 
-          [key]: Math.floor(key === 'lines' ? 339170 - (targets[key] - current) : current) 
-        }))
-      }, duration / steps)
-    })
-  }
-
   const services = [
     {
       icon: Code,
@@ -250,57 +209,6 @@ function App() {
     }
   ]
 
-  const processes = [
-    { 
-      title: "Research", 
-      description: "First we learn & research about client's requirements", 
-      icon: Search,
-      color: "bg-blue-500"
-    },
-    { 
-      title: "Prototype", 
-      description: "We create an outline from our research result", 
-      icon: FileCode,
-      color: "bg-green-500"
-    },
-    { 
-      title: "Design", 
-      description: "We craft beautiful design for client's project", 
-      icon: Palette,
-      color: "bg-purple-500"
-    },
-    { 
-      title: "Front-end", 
-      description: "Purely hand coded front-end development with HTML, CSS, JavaScript, Reactjs & Tailwindcss", 
-      icon: Code,
-      color: "bg-orange-500"
-    },
-    { 
-      title: "Back-end", 
-      description: "Development for website's functionalities with Python, Django, Ruby on Rails & Node.js", 
-      icon: Server,
-      color: "bg-yellow-500"
-    },
-    { 
-      title: "Server", 
-      description: "Highly reliable & fast cloud server", 
-      icon: Globe,
-      color: "bg-red-500"
-    },
-    { 
-      title: "Maintenance", 
-      description: "We continuously work with our clients to help them maintain the website.", 
-      icon: CheckCircle,
-      color: "bg-indigo-500"
-    },
-    { 
-      title: "Quality assurance", 
-      description: "We assure the website's code quality, performance, style & spelling in every manner", 
-      icon: Star,
-      color: "bg-teal-500"
-    }
-  ]
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     
@@ -316,6 +224,31 @@ function App() {
       ...prev,
       [name]: value
     }));
+  };
+
+  const handlePackageGetStarted = (pkg) => {
+    const selectedService = pkg.name === 'Growth Partner' ? 'Maintenance & Support' : 'Web Development';
+    const packageDetails = [
+      `Hi MLK Team,`,
+      ``,
+      `I am interested in the ${pkg.name} package (${pkg.price} ${pkg.period}).`,
+      ``,
+      `Package details:`,
+      ...pkg.features.map((feature) => `- ${feature}`),
+      ``,
+      `Please contact me to discuss next steps and timeline.`
+    ].join('\n');
+
+    const words = packageDetails.trim() ? packageDetails.trim().split(/\s+/) : [];
+    setWordCount(words.length);
+
+    setFormData((prev) => ({
+      ...prev,
+      service: selectedService,
+      message: packageDetails
+    }));
+
+    scrollToSection('contact');
   };
 
   const handleSubmit = async (e) => {
@@ -396,7 +329,7 @@ function App() {
             className="flex items-center space-x-2"
           >
             <img 
-              src="/favicon.png" 
+              src="/mlk_logo_icon.png" 
               alt="MLK Computer Logo" 
               className="h-10 w-auto rounded-lg"
             />
@@ -405,7 +338,7 @@ function App() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {['home', 'about', 'services', 'process', 'work', 'facts', 'contact'].map((item) => (
+            {['home', 'about', 'services', 'process', 'work', 'packages', 'contact'].map((item) => (
               <motion.button
                 key={item}
                 whileHover={{ scale: 1.05 }}
@@ -458,7 +391,7 @@ function App() {
               className="md:hidden bg-background border-t border-border fixed top-16 left-0 right-0 z-50 overflow-hidden shadow-lg"
             >
               <div className="container mx-auto px-4 py-4 space-y-2 bg-background">
-                {['home', 'about', 'services', 'process', 'work', 'facts', 'contact'].map((item) => (
+                {['home', 'about', 'services', 'process', 'work', 'packages', 'contact'].map((item) => (
                   <button
                     key={item}
                     onClick={() => scrollToSection(item)}
@@ -508,8 +441,7 @@ function App() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8 }}
             >
-              AN INNOVATIVE ICT SOLUTIONS PROVIDER &<br />
-              DESIGN AGENCY
+              Technology that moves business forward.
             </motion.h1>
             
             <motion.p
@@ -518,8 +450,8 @@ function App() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
-              We love the Web and the work we do. We work closely with our clients to deliver the best possible solutions for their needs
-            </motion.p>
+              A modern business technology partner delivering practical support, digital solutions, and consulting.
+              </motion.p>
             
             <motion.div
               className="flex flex-col sm:flex-row gap-4 justify-center"
@@ -568,7 +500,7 @@ function App() {
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6">About Us</h2>
             <p className="text-lg text-muted-foreground max-w-4xl mx-auto">
-              We are an innovative ICT solutions provider. We offer a comprehensive range of products and services that best enable an organisation and individuals to achieve their goals through the optimal utilisation of technology. We help our clients use innovative information and communication technology to solve business challenges, combining world-class software with acumen, insight and experience to give you the competitive edge.
+              MLK Computer Consulting is a modern business technology brand focused on helping clients move forward through practical IT support, websites, hosting, software solutions, and consulting. Its identity is built around progress, reliability, and structured growth, expressed through a clean corporate-tech aesthetic, confident messaging, and a strong symbol of movement and partnership.
             </p>
           </motion.div>
 
@@ -664,62 +596,78 @@ function App() {
       </section>
 
       {/* Process Section */}
-      <section id="process" className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
+        <section id="process" className="py-20">
+          <div className="container mx-auto px-4">
+            <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
+            >
+          <span className="inline-flex items-center justify-center text-sm font-semibold tracking-[0.14em] uppercase text-blue-600">
+            How we work
+          </span>
+          <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-5 leading-[1.05]">
+            From idea to launch
+            <br />
+            in four steps
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+            A clear, no-surprises process that keeps you informed and in control.
+          </p>
+            </motion.div>
+
+            <div className="relative">
+          <div className="hidden lg:block absolute top-[30px] left-[7%] right-[7%] h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+            step: '01',
+            title: 'Discovery call',
+            description: 'We learn about your business, goals, and what you actually need - not what we assume you need.'
+              },
+              {
+            step: '02',
+            title: 'Proposal & plan',
+            description: 'You receive a clear scope, timeline, and fixed price. No hidden costs, no surprises.'
+              },
+              {
+            step: '03',
+            title: 'Build & review',
+            description: 'We build your solution and check in with you at every milestone for feedback and approval.'
+              },
+              {
+            step: '04',
+            title: 'Launch & support',
+            description: 'We go live together. Then we stick around - same-day response for any issues that arise.'
+              }
+            ].map((process, index) => (
+              <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Our Processes</h2>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              We use the following processes to make you a smart and stunning web or mobile app at an affordable rate
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {processes.map((process, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                className="relative"
+            transition={{ duration: 0.6, delay: index * 0.1 }}
+            className="relative text-center"
               >
-                <Card className="h-full group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                  <CardHeader>
-                    <div className="flex items-center space-x-4">
-                      <div className="relative">
-                        <div className={`w-10 h-10 ${process.color} text-white rounded-full flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform duration-300`}>
-                          <process.icon className="h-5 w-5" />
-                        </div>
-                        <span className="absolute -top-2 -right-2 bg-foreground text-background text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                          {index + 1}
-                        </span>
-                      </div>
-                      <CardTitle className="text-lg group-hover:text-primary transition-colors duration-300">{process.title}</CardTitle>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="group-hover:text-foreground/90 transition-colors duration-300">
-                      {process.description}
-                    </CardDescription>
-                  </CardContent>
-                </Card>
-                
-                {index < processes.length - 1 && (
-                  <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-0.5 bg-border" />
-                )}
+            <div className="mb-6 flex justify-center">
+              <div className="w-[64px] h-[64px] rounded-full border-2 border-primary/80 bg-primary text-primary-foreground flex items-center justify-center text-3xl font-bold leading-none tracking-tight shadow-sm hover:shadow-lg transition-shadow duration-300">
+                {process.step}
+              </div>
+            </div>
+            <h3 className="text-2xl font-semibold leading-tight mb-3">{process.title}</h3>
+            <p className="text-muted-foreground text-base leading-relaxed">
+              {process.description}
+            </p>
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
+            </div>
+          </div>
+        </section>
 
-      {/* Work Section */}
+        {/* Work Section */}
       <section id="work" className="py-20">
         <div className="container mx-auto px-4">
           <motion.div
@@ -747,17 +695,17 @@ function App() {
             >
               <div className="overflow-hidden h-64">
                 <img 
-                  src="/cocare.png" 
-                  alt="Cocare Project" 
+                  src="/libo.png" 
+                  alt="Libo Project" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">Cocare Health Solutions</h3>
-                <p className="text-muted-foreground mb-4">A comprehensive healthcare management system for patient care coordination.</p>
+                <h3 className="text-xl font-semibold mb-2">Libo Insights</h3>
+                <p className="text-muted-foreground mb-4">South Africa's most complete data platform.</p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Data Quality</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Property & Rental</span>
                   <span className="px-3 py-1 bg-muted rounded-full text-sm">Healthcare</span>
                 </div>
               </div>
@@ -773,18 +721,18 @@ function App() {
             >
               <div className="overflow-hidden h-64">
                 <img 
-                  src="/easytax.png" 
-                  alt="iDBanc Project" 
+                  src="/18gm.png" 
+                  alt="18 GM Project" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">EasyTax AI</h3>
-                <p className="text-muted-foreground mb-4">Navigate SARS filing with confidence. AI-powered guidance in plain language, 24/7.</p>
+                <h3 className="text-xl font-semibold mb-2">18 GM</h3>
+                <p className="text-muted-foreground mb-4">Africa's first living museum.</p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">SARS Compliance</span>
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Tax</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Tours</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Museum</span>
                 </div>
               </div>
             </motion.div>
@@ -807,7 +755,7 @@ function App() {
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-semibold mb-2">Andrea Dondolo</h3>
-                <p className="text-muted-foreground mb-4">award winning actress.</p>
+                <p className="text-muted-foreground mb-4">Award winning actress.</p>
                 <div className="flex flex-wrap gap-2">
                   <span className="px-3 py-1 bg-muted rounded-full text-sm">Writter</span>
                   <span className="px-3 py-1 bg-muted rounded-full text-sm">Actress</span>
@@ -825,18 +773,18 @@ function App() {
             >
               <div className="overflow-hidden h-64">
                 <img 
-                  src="/rentsafe.png" 
-                  alt="LaSOS Project" 
+                  src="/mandondo.png" 
+                  alt="Mandondo Project" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">Rent Safe Verification</h3>
-                <p className="text-muted-foreground mb-4">Platform for the RentSafe identity verification system.</p>
+                <h3 className="text-xl font-semibold mb-2">Mandondo Consulting</h3>
+                <p className="text-muted-foreground mb-4">Business Compliance & Advisory.</p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Secure Rentals</span>
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Trusted Identities</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Company Registrations</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">SARS Compliance</span>
                 </div>
               </div>
             </motion.div>
@@ -877,18 +825,18 @@ function App() {
             >
               <div className="overflow-hidden h-64">
                 <img 
-                  src="/nexify.png" 
-                  alt="Uhuru Project" 
+                  src="/obsido.png" 
+                  alt="obsido Project" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">Nexify</h3>
-                <p className="text-muted-foreground mb-4">Customer Support That Feels Human.</p>
+                <h3 className="text-xl font-semibold mb-2">Obsido Interiors</h3>
+                <p className="text-muted-foreground mb-4">Premium Interior Solutions.</p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Conversational AI</span>
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">E-Commerce</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Custom Furniture</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Design</span>
                 </div>
               </div>
             </motion.div>
@@ -896,44 +844,123 @@ function App() {
         </div>
       </section>
 
-      {/* Fun Facts Section */}
-      <section id="facts" className="py-20 bg-muted/30">
+      {/* Packages Section */}
+      <section id="packages" className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            onViewportEnter={animateCounters}
-            className="text-center mb-16"
+            className="text-center mb-14"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Fun Facts About Us</h2>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              It is important to us to be there for you when and where you need us. We pride ourselves on being able to offer a same day response to allow you, your staff and your customers to gain the most value from your technology investment.
+            <h2 className="text-3xl md:text-4xl font-bold mt-4 mb-4">Simple, transparent packages</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              No surprises. No jargon. Just clear pricing for real results.
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid lg:grid-cols-3 gap-8">
             {[
-              { icon: Coffee, number: counters.coffee, label: "Cups Of Coffee", color: "text-orange-500" },
-              { icon: Users, number: counters.developers, label: "Developers in the world", color: "text-blue-500" },
-              { icon: FileCode, number: counters.lines, label: "Lines of code", color: "text-green-500" },
-              { icon: Infinity, number: counters.loops, label: "while (true) { learn; code; }", color: "text-purple-500" }
-            ].map((fact, index) => (
+              {
+                name: 'Starter',
+                price: 'R6,500',
+                period: 'once-off',
+                description: 'Get online with a clean, professional website that represents your business well.',
+                features: [
+                  '5-page mobile-ready website',
+                  'Contact form & Google Maps',
+                  'Basic SEO setup',
+                  'Domain & hosting guidance',
+                  '1 month post-launch support'
+                ],
+                featured: false
+              },
+              {
+                name: 'Business Ready',
+                price: 'R12,000',
+                period: 'once-off',
+                description: 'Everything you need to look professional, get found on Google, and support your customers.',
+                features: [
+                  'Full website (up to 8 pages)',
+                  'Google Business Profile setup',
+                  'Professional business email',
+                  'Advanced SEO + speed optimisation',
+                  '3 months support included',
+                  'WhatsApp enquiry button'
+                ],
+                featured: true
+              },
+              {
+                name: 'Growth Partner',
+                price: 'R1,800',
+                period: '/month',
+                description: 'Ongoing tech partnership - we handle everything so you never have to worry about IT again.',
+                features: [
+                  'Monthly website updates',
+                  'IT support (remote & on-site)',
+                  'Performance monitoring',
+                  'Security & backup management',
+                  'Priority response',
+                  'Quarterly strategy review'
+                ],
+                featured: false
+              }
+            ].map((pkg, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, scale: 0.5 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                className="text-center"
+                transition={{ duration: 0.6, delay: index * 0.12 }}
               >
-                <Card className="p-6 hover:shadow-lg transition-shadow">
-                  <fact.icon className={`h-12 w-12 ${fact.color} mx-auto mb-4`} />
-                  <div className="text-3xl md:text-4xl font-bold mb-2">
-                    {fact.number.toLocaleString()}
+                <Card
+                  className={`h-full p-8 rounded-3xl transition-all duration-300 ${
+                    pkg.featured
+                      ? 'border-0 bg-zinc-950 text-zinc-50 shadow-2xl shadow-blue-900/20 scale-[1.01]'
+                      : 'border border-border/70 bg-card shadow-sm hover:shadow-lg'
+                  }`}
+                >
+                  {pkg.featured && (
+                    <Badge className="mb-5 bg-blue-600 text-white border border-blue-500 hover:bg-blue-600 uppercase tracking-wide">
+                      Most popular
+                    </Badge>
+                  )}
+                  <p className={`text-sm uppercase tracking-[0.16em] font-semibold mb-3 ${pkg.featured ? 'text-zinc-300' : 'text-muted-foreground'}`}>
+                    {pkg.name}
+                  </p>
+                  <div className="text-4xl font-bold mb-3">
+                    {pkg.price}{' '}
+                    <span className={`text-base font-medium ${pkg.featured ? 'text-zinc-400' : 'text-muted-foreground'}`}>
+                      {pkg.period}
+                    </span>
                   </div>
-                  <p className="text-muted-foreground">{fact.label}</p>
+                  <p className={`mb-6 ${pkg.featured ? 'text-zinc-300' : 'text-muted-foreground'}`}>
+                    {pkg.description}
+                  </p>
+                  <div className={`h-px mb-6 ${pkg.featured ? 'bg-zinc-800' : 'bg-border'}`} />
+                  <ul className="space-y-3 mb-8 text-left">
+                    {pkg.features.map((feature) => (
+                      <li key={feature} className="flex items-start gap-2">
+                        <span
+                          className={`mt-2 h-2 w-2 rounded-full shrink-0 ${
+                            pkg.featured ? 'bg-blue-500' : 'bg-emerald-600'
+                          }`}
+                        />
+                        <span className={pkg.featured ? 'text-zinc-200' : ''}>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Button
+                    onClick={() => handlePackageGetStarted(pkg)}
+                    className={`w-full rounded-full font-semibold ${
+                      pkg.featured
+                        ? 'bg-blue-600 text-white hover:bg-blue-700'
+                        : 'bg-muted text-foreground hover:bg-muted/80 border border-border'
+                    }`}
+                  >
+                    Get started
+                  </Button>
                 </Card>
               </motion.div>
             ))}
@@ -957,28 +984,28 @@ function App() {
             </p>
             
             {/* Add TeamViewer Download Button */}
-            <div className="mt-8">
-              <h3 className="text-lg font-medium mb-4">Need Remote Support?</h3>
-              <TeamViewerDownload />
-            </div>
-          </motion.div>
+                  <div className="mt-8">
+                    <h3 className="text-lg font-medium mb-4">Need Remote Support?</h3>
+                    <TeamViewerDownload />
+                  </div>
+                  </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-12">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              <Card className="p-6 w-full max-w-2xl">
-                <CardHeader>
-                  <CardTitle>Send us a message</CardTitle>
-                  <CardDescription>Fill out the form below and we'll get back to you shortly.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
+                  <div className="grid lg:grid-cols-2 gap-12">
+                  <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8 }}
+                  >
+                    <Card className="p-6 w-full max-w-2xl">
+                    <CardHeader>
+                      <CardTitle>Send us a message</CardTitle>
+                      <CardDescription>Fill out the form below and we'll get back to you shortly.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <form onSubmit={handleSubmit} className="space-y-4">
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div>
                         <Input 
                           type="text"
                           name="name"
@@ -988,8 +1015,8 @@ function App() {
                           required
                           className="w-full"
                         />
-                      </div>
-                      <div>
+                        </div>
+                        <div>
                         <Input 
                           type="email"
                           name="email"
@@ -999,17 +1026,17 @@ function App() {
                           required
                           className="w-full"
                         />
+                        </div>
                       </div>
-                    </div>
-                    
-                    <div>
-                      <select
+                      
+                      <div>
+                        <select
                         name="service"
                         value={formData.service}
                         onChange={handleChange}
                         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                         required
-                      >
+                        >
                         <option value="">Select a service needed</option>
                         <option value="Web Development">Web Development</option>
                         <option value="Mobile App Development">Mobile App Development</option>
@@ -1023,19 +1050,19 @@ function App() {
                         <option value="Hosting Services">Hosting Services</option>
                         <option value="SEO Services">SEO Services</option>
                         <option value="Maintenance & Support">Maintenance & Support</option>
-                      </select>
-                    </div>
+                        </select>
+                      </div>
 
-                    <div className="space-y-2">
-                      <div className="flex justify-between items-center">
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center">
                         <label htmlFor="message" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                           Your Message
                         </label>
                         <span className="text-xs text-muted-foreground">
                           {wordCount}/{maxWords} words
                         </span>
-                      </div>
-                      <Textarea
+                        </div>
+                        <Textarea
                         id="message"
                         name="message"
                         rows="6"
@@ -1044,114 +1071,125 @@ function App() {
                         onChange={handleChange}
                         required
                         className="min-h-[150px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                      />
-                      {wordCount === maxWords && (
+                        />
+                        {wordCount === maxWords && (
                         <p className="text-xs text-amber-600 mt-1">
                           Maximum {maxWords} words reached
                         </p>
-                      )}
-                    </div>
+                        )}
+                      </div>
 
-                    {submitStatus.message && (
-                      <div className={`p-3 rounded-md ${
+                      {submitStatus.message && (
+                        <div className={`p-3 rounded-md ${
                         submitStatus.success 
                           ? 'bg-green-100 text-green-800' 
                           : 'bg-red-100 text-red-800'
-                      }`}>
+                        }`}>
                         {submitStatus.message}
-                      </div>
-                    )}
+                        </div>
+                      )}
 
-                    <Button 
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
-                    >
-                      {isSubmitting ? (
+                      <Button 
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                      >
+                        {isSubmitting ? (
                         <>
                           <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                           </svg>
                           Sending...
                         </>
-                      ) : (
+                        ) : (
                         <>
                           Send Message
                           <Send className="ml-2 h-4 w-4" />
                         </>
-                      )}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </motion.div>
+                        )}
+                      </Button>
+                      </form>
+                    </CardContent>
+                    </Card>
+                  </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="space-y-6"
-            >
-              <Card className="p-6">
-                <CardHeader>
-                  <CardTitle>Contact Information</CardTitle>
-                  <CardDescription>Get in touch with us through any of these channels.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center space-x-3">
-                    <Mail className="h-5 w-5 text-primary" />
-                    <span>hello@mlkcomputer.com</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <Phone className="h-5 w-5 text-primary" />
-                    <span>+27 (082) 531-9901</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <MapPin className="h-7 w-7 text-primary" />
-                    <span>The Bandwidth Barn Lookout Hill, Cnr Mew way & Spine road, Khayelitsha, Cape Town, South Africa</span>
-                  </div>
-                </CardContent>
-              </Card>
+                  <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8 }}
+                    className="space-y-6"
+                  >
+                    <Card className="p-6">
+                    <CardHeader>
+                      <CardTitle>Contact Information</CardTitle>
+                      <CardDescription>Get in touch with us through any of these channels.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="flex items-center space-x-3">
+                      <Mail className="h-5 w-5 text-primary" />
+                      <span>hello@mlkcomputer.com</span>
+                      </div>
+                      <div className="flex items-center space-x-3 flex-wrap gap-3">
+                      <Phone className="h-5 w-5 text-primary" />
+                      <span>+27 (082) 531-9901</span>
+                      <a 
+                        href="https://wa.me/27825319901" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-500 hover:bg-green-600 text-white font-semibold transition-colors duration-300"
+                      >
+                        <MessageCircle className="h-4 w-4" />
+                        WhatsApp
+                      </a>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                      <MapPin className="h-7 w-7 text-primary" />
+                      <span>The Bandwidth Barn Lookout Hill, Cnr Mew way & Spine road, Khayelitsha, Cape Town, South Africa</span>
+                      </div>
+                    </CardContent>
+                    </Card>
 
-              <Card className="p-6">
-                <CardHeader>
-                  <CardTitle>Office Hours</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  <div className="flex justify-between">
-                    <span>Monday - Friday</span>
-                    <span>8:00 AM - 5:00 PM</span>
+                    <Card className="p-6">
+                    <CardHeader>
+                      <CardTitle>Office Hours</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      <div className="flex justify-between">
+                      <span>Monday - Friday</span>
+                      <span>8:00 AM - 5:00 PM</span>
+                      </div>
+                      <div className="flex justify-between">
+                      <span>Saturday</span>
+                      <span>9:00 AM - 2:00 PM</span>
+                      </div>
+                      <div className="flex justify-between">
+                      <span>Sunday</span>
+                      <span>Closed</span>
+                      </div>
+                    </CardContent>
+                    </Card>
+                  </motion.div>
                   </div>
-                  <div className="flex justify-between">
-                    <span>Saturday</span>
-                    <span>9:00 AM - 2:00 PM</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Sunday</span>
-                    <span>Closed</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+                </div>
+                </section>
 
-      {/* Footer */}
+                {/* Footer */}
       <footer className="bg-background border-t border-border py-12">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold">M</span>
-                </div>
+                <img 
+              src="/mlk_logo_icon.png" 
+              alt="MLK Computer Logo" 
+              className="h-10 w-auto rounded-lg"
+            />
                 <span className="text-lg font-bold">MLK Computer Consulting</span>
               </div>
               <p className="text-muted-foreground">
-                Innovative ICT solutions provider and design agency dedicated to accelerating your ambitions.
+                Technology that moves business forward.
               </p>
             </div>
             
