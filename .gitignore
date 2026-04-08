@@ -39,6 +39,7 @@ yarn-error.log*
 .Trashes
 ehthumbs.db
 Thumbs.db
+.codex
 
 # Client build output
 /client/dist

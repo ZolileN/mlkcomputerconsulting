@@ -41,6 +41,7 @@ function App() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     message: '',
     service: ''
   });
@@ -279,6 +280,7 @@ function App() {
         setFormData({
           name: '',
           email: '',
+          phone: '',
           message: '',
           service: ''
         });
@@ -1024,6 +1026,16 @@ function App() {
                           value={formData.email}
                           onChange={handleChange}
                           required
+                          className="w-full"
+                        />
+                        </div>
+                        <div className="md:col-span-2">
+                        <Input
+                          type="tel"
+                          name="phone"
+                          placeholder="Your Phone Number"
+                          value={formData.phone}
+                          onChange={handleChange}
                           className="w-full"
                         />
                         </div>
