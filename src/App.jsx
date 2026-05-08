@@ -775,18 +775,18 @@ function App() {
             >
               <div className="overflow-hidden h-64">
                 <img 
-                  src="/mandondo.png" 
-                  alt="Mandondo Project" 
+                  src="/mintry.png" 
+                  alt="Mintry-Fabric" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">Mandondo Consulting</h3>
-                <p className="text-muted-foreground mb-4">Business Compliance & Advisory.</p>
+                <h3 className="text-xl font-semibold mb-2">Mintry-Fabric</h3>
+                <p className="text-muted-foreground mb-4">Mintry Fabric is a high-performance, real-time AI metering and policy enforcement layer.</p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Company Registrations</span>
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">SARS Compliance</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">AI Metering</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Policy Enforcement</span>
                 </div>
               </div>
             </motion.div>
@@ -801,18 +801,18 @@ function App() {
             >
               <div className="overflow-hidden h-64">
                 <img 
-                  src="/njozela.png" 
-                  alt="Njozela Project" 
+                  src="/signaldesk.png" 
+                  alt="SignalDesk Africa" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">Njozela Attorneys</h3>
-                <p className="text-muted-foreground mb-4">Providing Legal Services in Khayelitsha Since 2002.</p>
+                <h3 className="text-xl font-semibold mb-2">SignalDesk Africa</h3>
+                <p className="text-muted-foreground mb-4">SignalDesk Africa is a premium media intelligence and creator monetisation platform.</p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Legal Services</span>
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Justice</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Media Intelligence</span>
+                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Creator Monetisation</span>
                 </div>
               </div>
             </motion.div>
