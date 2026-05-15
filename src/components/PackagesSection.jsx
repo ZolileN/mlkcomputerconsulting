@@ -88,9 +88,9 @@ const PackagesSection = ({ onGetStarted }) => {
                     Most popular
                   </Badge>
                 )}
-                <p className={`text-sm uppercase tracking-[0.16em] font-semibold mb-3 ${pkg.featured ? 'text-zinc-300' : 'text-muted-foreground'}`}>
+                <h3 className={`text-sm uppercase tracking-[0.16em] font-semibold mb-3 ${pkg.featured ? 'text-zinc-300' : 'text-muted-foreground'}`}>
                   {pkg.name}
-                </p>
+                </h3>
                 <div className="text-4xl font-bold mb-3">
                   {pkg.price}{' '}
                   <span className={`text-base font-medium ${pkg.featured ? 'text-zinc-400' : 'text-muted-foreground'}`}>

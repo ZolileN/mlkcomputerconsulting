@@ -26,9 +26,14 @@ const BackToTop = () => {
   }, []);
 
   return (
-    <div className={`back-to-top ${isVisible ? 'visible' : ''}`} onClick={scrollToTop} aria-label="Back to top">
-      <ArrowUp size={24} />
-    </div>
+    <button 
+      className={`back-to-top ${isVisible ? 'visible' : ''}`} 
+      onClick={scrollToTop} 
+      aria-label="Back to top"
+      type="button"
+    >
+      <ArrowUp size={24} aria-hidden="true" />
+    </button>
   );
 };
 

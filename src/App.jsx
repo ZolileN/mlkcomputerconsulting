@@ -384,6 +384,7 @@ function App() {
               size="icon"
               onClick={toggleDarkMode}
               className="ml-4"
+              aria-label="Toggle dark mode"
             >
               {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
@@ -395,6 +396,7 @@ function App() {
               variant="ghost"
               size="icon"
               onClick={toggleDarkMode}
+              aria-label="Toggle dark mode"
             >
               {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
@@ -402,6 +404,7 @@ function App() {
               variant="ghost"
               size="icon"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle navigation menu"
             >
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
@@ -714,8 +717,10 @@ function App() {
                     <CardContent>
                       <form onSubmit={handleSubmit} className="space-y-4">
                       <div className="grid md:grid-cols-2 gap-4">
-                        <div>
+                        <div className="space-y-2">
+                        <label htmlFor="name" className="text-sm font-medium">Your Name</label>
                         <Input 
+                          id="name"
                           type="text"
                           name="name"
                           placeholder="Your Name"
@@ -725,8 +730,10 @@ function App() {
                           className="w-full"
                         />
                         </div>
-                        <div>
+                        <div className="space-y-2">
+                        <label htmlFor="email" className="text-sm font-medium">Your Email</label>
                         <Input 
+                          id="email"
                           type="email"
                           name="email"
                           placeholder="Your Email"
@@ -736,8 +743,10 @@ function App() {
                           className="w-full"
                         />
                         </div>
-                        <div className="md:col-span-2">
+                        <div className="md:col-span-2 space-y-2">
+                        <label htmlFor="phone" className="text-sm font-medium">Your Phone Number</label>
                         <Input
+                          id="phone"
                           type="tel"
                           name="phone"
                           placeholder="Your Phone Number"
@@ -748,8 +757,10 @@ function App() {
                         </div>
                       </div>
                       
-                      <div>
+                      <div className="space-y-2">
+                        <label htmlFor="service" className="text-sm font-medium">Service Needed</label>
                         <select
+                        id="service"
                         name="service"
                         value={formData.service}
                         onChange={handleChange}
