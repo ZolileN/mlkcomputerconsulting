@@ -90,6 +90,7 @@ export default defineConfig(({ mode }) => ({
             if (id.includes('react')) return 'react-vendor';
             if (id.includes('framer-motion')) return 'animation-vendor';
             if (id.includes('lucide-react')) return 'icons-vendor';
+            if (id.includes('@radix-ui')) return 'ui-vendor';
             return 'vendor';
           }
         },

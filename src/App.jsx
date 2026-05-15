@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
@@ -29,8 +29,11 @@ import {
   ArrowUp,
   Download  // Add this import
 } from 'lucide-react'
-import BackToTop from './components/BackToTop';
-import TeamViewerDownload from './components/TeamViewerDownload'; // Add this import
+const BackToTop = lazy(() => import('./components/BackToTop'));
+const TeamViewerDownload = lazy(() => import('./components/TeamViewerDownload'));
+const WorkSection = lazy(() => import('./components/WorkSection'));
+const PackagesSection = lazy(() => import('./components/PackagesSection'));
+import { useIsMobile } from '@/hooks/use-mobile'
 import './App.css'
 
 function App() {
@@ -51,9 +54,10 @@ function App() {
     success: null, 
     message: '' 
   });
+  const isMobile = useIsMobile()
   const { scrollY } = useScroll()
-  const y1 = useTransform(scrollY, [0, 300], [0, 200])
-  const y2 = useTransform(scrollY, [0, 300], [0, -100])
+  const y1 = useTransform(scrollY, [0, 300], [0, isMobile ? 0 : 200])
+  const y2 = useTransform(scrollY, [0, 300], [0, isMobile ? 0 : -100])
 
   useEffect(() => {
     // Dark mode detection
@@ -306,7 +310,7 @@ function App() {
             className="flex items-center space-x-2"
           >
             <img 
-              src="/mlk_logo_icon.png" 
+              src="/mlk_logo_icon.webp" 
               alt="MLK Computer Logo" 
               className="h-10 w-auto rounded-lg"
             />
@@ -386,24 +390,34 @@ function App() {
       {/* Hero Section */}
       <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <img 
-            src="/hero-image.jpg" 
-            alt="Hero Background" 
-            className="w-full h-full object-cover"
-            loading="eager"
-            width={1920}
-            height={1080}
-            decoding="async"
-          />
+          <picture>
+            <source
+              media="(max-width: 600px)"
+              srcSet="/hero-image-mobile.webp"
+              type="image/webp"
+            />
+            <img 
+              src="/hero-image.webp" 
+              srcSet="/hero-image-mobile.webp 600w, /hero-image.webp 1920w"
+              sizes="(max-width: 600px) 600px, 1920px"
+              alt="Hero Background" 
+              className="w-full h-full object-cover"
+              loading="eager"
+              fetchPriority="high"
+              width={1920}
+              height={1080}
+              decoding="async"
+            />
+          </picture>
           <div className="absolute inset-0 bg-black/40" />
         </div>
         <motion.div
           style={{ y: y1 }}
-          className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-teal-600/20"
+          className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-teal-600/20 motion-safe-gpu"
         />
         <motion.div
           style={{ y: y2 }}
-          className="absolute inset-0 opacity-20 bg-gradient-to-tr from-transparent via-primary/5 to-transparent"
+          className="absolute inset-0 opacity-20 bg-gradient-to-tr from-transparent via-primary/5 to-transparent motion-safe-gpu"
         />
         
         <div className="container mx-auto px-4 text-center relative z-10">
@@ -645,305 +659,14 @@ function App() {
         </section>
 
         {/* Work Section */}
-      <section id="work" className="py-20">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Recent Projects</h2>
-            <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
-            <p className="text-muted-foreground max-w-3xl mx-auto">
-              Explore some of our recent projects and see how we've helped businesses transform their digital presence.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Project 1 */}
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-            >
-              <div className="overflow-hidden h-64">
-                <img 
-                  src="/libo.png" 
-                  alt="Libo Project" 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">Libo Insights</h3>
-                <p className="text-muted-foreground mb-4">South Africa's most complete data platform.</p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Property & Rental</span>
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Healthcare</span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Project 2 */}
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-            >
-              <div className="overflow-hidden h-64">
-                <img 
-                  src="/18gm.webp" 
-                  alt="18 GM Project" 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">18 GM</h3>
-                <p className="text-muted-foreground mb-4">Africa's first living museum.</p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Tours</span>
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Museum</span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Project 3 */}
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-            >
-              <div className="overflow-hidden h-64">
-                <img 
-                  src="/andrea.webp" 
-                  alt="Andrea Project" 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">Andrea Dondolo</h3>
-                <p className="text-muted-foreground mb-4">Award winning actress.</p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Writter</span>
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Actress</span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Project 4 */}
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-            >
-              <div className="overflow-hidden h-64">
-                <img 
-                  src="/mintry.png" 
-                  alt="Mintry-Fabric" 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">Mintry-Fabric</h3>
-                <p className="text-muted-foreground mb-4">Mintry Fabric is a high-performance, real-time AI metering and policy enforcement layer.</p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">AI Metering</span>
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Policy Enforcement</span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Project 5 */}
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-            >
-              <div className="overflow-hidden h-64">
-                <img 
-                  src="/signaldesk.png" 
-                  alt="SignalDesk Africa" 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">SignalDesk Africa</h3>
-                <p className="text-muted-foreground mb-4">SignalDesk Africa is a premium media intelligence and creator monetisation platform.</p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Media Intelligence</span>
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Creator Monetisation</span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Project 6 */}
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              className="group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-            >
-              <div className="overflow-hidden h-64">
-                <img 
-                  src="/obsido.webp" 
-                  alt="obsido Project" 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">Obsido Interiors</h3>
-                <p className="text-muted-foreground mb-4">Premium Interior Solutions.</p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Custom Furniture</span>
-                  <span className="px-3 py-1 bg-muted rounded-full text-sm">Design</span>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+      <Suspense fallback={<div className="h-96 w-full bg-muted/20 animate-pulse" />}>
+        <WorkSection />
+      </Suspense>
 
       {/* Packages Section */}
-      <section id="packages" className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-14"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mt-4 mb-4">Simple, transparent packages</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              No surprises. No jargon. Just clear pricing for real results.
-            </p>
-          </motion.div>
-
-          <div className="grid lg:grid-cols-3 gap-8">
-            {[
-              {
-                name: 'Starter',
-                price: 'R6,500',
-                period: 'once-off',
-                description: 'Get online with a clean, professional website that represents your business well.',
-                features: [
-                  '5-page mobile-ready website',
-                  'Contact form & Google Maps',
-                  'Basic SEO setup',
-                  'Domain & hosting guidance',
-                  '1 month post-launch support'
-                ],
-                featured: false
-              },
-              {
-                name: 'Business Ready',
-                price: 'R12,000',
-                period: 'once-off',
-                description: 'Everything you need to look professional, get found on Google, and support your customers.',
-                features: [
-                  'Full website (up to 8 pages)',
-                  'Google Business Profile setup',
-                  'Professional business email',
-                  'Advanced SEO + speed optimisation',
-                  '3 months support included',
-                  'WhatsApp enquiry button'
-                ],
-                featured: true
-              },
-              {
-                name: 'Growth Partner',
-                price: 'R1,800',
-                period: '/month',
-                description: 'Ongoing tech partnership - we handle everything so you never have to worry about IT again.',
-                features: [
-                  'Monthly website updates',
-                  'IT support (remote & on-site)',
-                  'Performance monitoring',
-                  'Security & backup management',
-                  'Priority response',
-                  'Quarterly strategy review'
-                ],
-                featured: false
-              }
-            ].map((pkg, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.12 }}
-              >
-                <Card
-                  className={`h-full p-8 rounded-3xl transition-all duration-300 ${
-                    pkg.featured
-                      ? 'border-0 bg-zinc-950 text-zinc-50 shadow-2xl shadow-blue-900/20 scale-[1.01]'
-                      : 'border border-border/70 bg-card shadow-sm hover:shadow-lg'
-                  }`}
-                >
-                  {pkg.featured && (
-                    <Badge className="mb-5 bg-blue-600 text-white border border-blue-500 hover:bg-blue-600 uppercase tracking-wide">
-                      Most popular
-                    </Badge>
-                  )}
-                  <p className={`text-sm uppercase tracking-[0.16em] font-semibold mb-3 ${pkg.featured ? 'text-zinc-300' : 'text-muted-foreground'}`}>
-                    {pkg.name}
-                  </p>
-                  <div className="text-4xl font-bold mb-3">
-                    {pkg.price}{' '}
-                    <span className={`text-base font-medium ${pkg.featured ? 'text-zinc-400' : 'text-muted-foreground'}`}>
-                      {pkg.period}
-                    </span>
-                  </div>
-                  <p className={`mb-6 ${pkg.featured ? 'text-zinc-300' : 'text-muted-foreground'}`}>
-                    {pkg.description}
-                  </p>
-                  <div className={`h-px mb-6 ${pkg.featured ? 'bg-zinc-800' : 'bg-border'}`} />
-                  <ul className="space-y-3 mb-8 text-left">
-                    {pkg.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-2">
-                        <span
-                          className={`mt-2 h-2 w-2 rounded-full shrink-0 ${
-                            pkg.featured ? 'bg-blue-500' : 'bg-emerald-600'
-                          }`}
-                        />
-                        <span className={pkg.featured ? 'text-zinc-200' : ''}>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Button
-                    onClick={() => handlePackageGetStarted(pkg)}
-                    className={`w-full rounded-full font-semibold ${
-                      pkg.featured
-                        ? 'bg-blue-600 text-white hover:bg-blue-700'
-                        : 'bg-muted text-foreground hover:bg-muted/80 border border-border'
-                    }`}
-                  >
-                    Get started
-                  </Button>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Suspense fallback={<div className="h-96 w-full bg-muted/20 animate-pulse" />}>
+        <PackagesSection onGetStarted={handlePackageGetStarted} />
+      </Suspense>
 
       {/* Contact Section */}
       <section id="contact" className="py-20 bg-muted/30">
@@ -963,7 +686,9 @@ function App() {
             {/* Add TeamViewer Download Button */}
                   <div className="mt-8">
                     <h3 className="text-lg font-medium mb-4">Need Remote Support?</h3>
-                    <TeamViewerDownload />
+                    <Suspense fallback={<div className="h-10 w-48 bg-muted animate-pulse rounded-md mx-auto" />}>
+                      <TeamViewerDownload />
+                    </Suspense>
                   </div>
                   </motion.div>
 
@@ -1011,7 +736,7 @@ function App() {
                           placeholder="Your Phone Number"
                           value={formData.phone}
                           onChange={handleChange}
-                          className="w-full"
+                          className="w-full text-base"
                         />
                         </div>
                       </div>
@@ -1021,7 +746,7 @@ function App() {
                         name="service"
                         value={formData.service}
                         onChange={handleChange}
-                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                         required
                         >
                         <option value="">Select a service needed</option>
@@ -1057,7 +782,7 @@ function App() {
                         value={formData.message}
                         onChange={handleChange}
                         required
-                        className="min-h-[150px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="min-h-[150px] w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                         />
                         {wordCount === maxWords && (
                         <p className="text-xs text-amber-600 mt-1">
@@ -1169,7 +894,7 @@ function App() {
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <img 
-              src="/mlk_logo_icon.png" 
+              src="/mlk_logo_icon.webp" 
               alt="MLK Computer Logo" 
               className="h-10 w-auto rounded-lg"
             />
@@ -1258,19 +983,19 @@ function App() {
             
             <div>
               <h4 className="font-semibold mb-4">Connect</h4>
-              <div className="flex space-x-4">
-                <a href="https://www.facebook.com/MlkComputerConsulting/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <div className="flex space-x-2">
+                <a href="https://www.facebook.com/MlkComputerConsulting/" target="_blank" rel="noopener noreferrer" className="p-2 hover:text-primary transition-colors" aria-label="Facebook">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" />
                   </svg>
                 </a>
-                <a href="https://x.com/mlkcomputer" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <a href="https://x.com/mlkcomputer" target="_blank" rel="noopener noreferrer" className="p-2 hover:text-primary transition-colors" aria-label="X (formerly Twitter)">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                   </svg>
                 </a>
-                <a href="https://www.linkedin.com/company/mlk-computer-consulting/?" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <a href="https://www.linkedin.com/company/mlk-computer-consulting/?" target="_blank" rel="noopener noreferrer" className="p-2 hover:text-primary transition-colors" aria-label="LinkedIn">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
                   </svg>
                 </a>
@@ -1283,7 +1008,9 @@ function App() {
           </div>
         </div>
       </footer>
-      <BackToTop />
+      <Suspense fallback={null}>
+        <BackToTop />
+      </Suspense>
     </div>
   )
 }
