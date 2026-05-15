@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Card } from '@/components/ui/card.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
 import { Button } from '@/components/ui/button.jsx'
@@ -54,7 +54,7 @@ const PackagesSection = ({ onGetStarted }) => {
   return (
     <section id="packages" className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -65,15 +65,15 @@ const PackagesSection = ({ onGetStarted }) => {
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             No surprises. No jargon. Just clear pricing for real results.
           </p>
-        </motion.div>
+        </m.div>
 
         <div className="grid lg:grid-cols-3 gap-8">
           {packages.map((pkg, index) => (
-            <motion.div
+            <m.div
               key={index}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, delay: index * 0.12 }}
             >
               <Card
@@ -124,7 +124,7 @@ const PackagesSection = ({ onGetStarted }) => {
                   Get started
                 </Button>
               </Card>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </div>

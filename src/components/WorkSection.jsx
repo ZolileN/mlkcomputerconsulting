@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 const WorkSection = () => {
   const projects = [
@@ -49,7 +49,7 @@ const WorkSection = () => {
   return (
     <section id="work" className="py-20">
       <div className="container mx-auto px-4">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -61,15 +61,15 @@ const WorkSection = () => {
           <p className="text-muted-foreground max-w-3xl mx-auto">
             Explore some of our recent projects and see how we've helped businesses transform their digital presence.
           </p>
-        </motion.div>
+        </m.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
-            <motion.div
+            <m.div
               key={index}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
@@ -90,7 +90,7 @@ const WorkSection = () => {
                   ))}
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </div>

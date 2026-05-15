@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react'
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react'
+import { motion, useScroll, useTransform, AnimatePresence, LazyMotion, domMax, m } from 'framer-motion';
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
@@ -35,6 +35,52 @@ const WorkSection = lazy(() => import('./components/WorkSection'));
 const PackagesSection = lazy(() => import('./components/PackagesSection'));
 import { useIsMobile } from '@/hooks/use-mobile'
 import './App.css'
+
+const AboutCard = React.memo(({ title, description, icon: Icon, color, index }) => (
+  <m.div
+    initial={{ opacity: 0, y: 50 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    whileHover={{ y: -5 }}
+    viewport={{ once: true, amount: 0.2 }}
+    transition={{ duration: 0.3, delay: index * 0.1 }}
+  >
+    <Card className="h-full hover:shadow-lg transition-all duration-300 hover:border-primary/30 group">
+      <CardHeader>
+        <div className={`w-14 h-14 ${color.replace('text', 'bg')}/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+          <Icon className={`h-7 w-7 ${color} transition-colors duration-300`} />
+        </div>
+        <CardTitle className="group-hover:text-primary transition-colors duration-300">{title}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <CardDescription className="text-base group-hover:text-foreground/90 transition-colors duration-300">
+          {description}
+        </CardDescription>
+      </CardContent>
+    </Card>
+  </m.div>
+));
+
+const ServiceCard = React.memo(({ title, description, icon: Icon, color, index }) => (
+  <m.div
+    initial={{ opacity: 0, y: 50 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, amount: 0.2 }}
+    transition={{ duration: 0.5, delay: index * 0.05 }}
+    whileHover={{ y: -5 }}
+  >
+    <Card className="h-full hover:shadow-xl transition-all duration-300 group">
+      <CardHeader>
+        <div className={`w-12 h-12 ${color} rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+          <Icon className="h-6 w-6 text-white" />
+        </div>
+        <CardTitle className="text-lg">{title}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <CardDescription>{description}</CardDescription>
+      </CardContent>
+    </Card>
+  </m.div>
+));
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -297,15 +343,16 @@ function App() {
 
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
-      {/* Navigation */}
-      <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-md border-b border-border"
-      >
+    <LazyMotion features={domMax}>
+      <div className="min-h-screen bg-background text-foreground flex flex-col">
+        {/* Navigation */}
+        <m.nav
+          initial={{ y: -100 }}
+          animate={{ y: 0 }}
+          className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-md border-b border-border"
+        >
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <motion.div
+          <m.div
             whileHover={{ scale: 1.05 }}
             className="flex items-center space-x-2"
           >
@@ -315,12 +362,12 @@ function App() {
               className="h-10 w-auto rounded-lg"
             />
             <span className="text-xl font-bold">MLK Computer Consulting</span>
-          </motion.div>
+          </m.div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {['home', 'about', 'services', 'process', 'work', 'packages', 'contact'].map((item) => (
-              <motion.button
+              <m.button
                 key={item}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -330,7 +377,7 @@ function App() {
                 }`}
               >
                 {item}
-              </motion.button>
+              </m.button>
             ))}
             <Button
               variant="ghost"
@@ -364,7 +411,7 @@ function App() {
         {/* Mobile Menu */}
         <AnimatePresence>
           {isMenuOpen && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
@@ -382,10 +429,10 @@ function App() {
                   </button>
                 ))}
               </div>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
-      </motion.nav>
+      </m.nav>
 
       {/* Hero Section */}
       <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -411,40 +458,40 @@ function App() {
           </picture>
           <div className="absolute inset-0 bg-black/40" />
         </div>
-        <motion.div
+        <m.div
           style={{ y: y1 }}
           className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-teal-600/20 motion-safe-gpu"
         />
-        <motion.div
+        <m.div
           style={{ y: y2 }}
           className="absolute inset-0 opacity-20 bg-gradient-to-tr from-transparent via-primary/5 to-transparent motion-safe-gpu"
         />
         
         <div className="container mx-auto px-4 text-center relative z-10">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <motion.h1
+            <m.h1
               className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-white drop-shadow-lg"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8 }}
             >
               Technology that moves business forward.
-            </motion.h1>
+            </m.h1>
             
-            <motion.p
+            <m.p
               className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto drop-shadow-md"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
               A modern business technology partner delivering practical support, digital solutions, and consulting.
-              </motion.p>
+              </m.p>
             
-            <motion.div
+            <m.div
               className="flex flex-col sm:flex-row gap-4 justify-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -466,23 +513,23 @@ function App() {
               >
                 Get In Touch
               </Button>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         </div>
 
-        <motion.div
+        <m.div
           animate={{ y: [0, -10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
         >
           <ChevronDown className="h-8 w-8 text-muted-foreground" />
-        </motion.div>
+        </m.div>
       </section>
 
       {/* About Section */}
       <section id="about" className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -493,7 +540,7 @@ function App() {
             <p className="text-lg text-muted-foreground max-w-4xl mx-auto">
               MLK Computer Consulting is a modern business technology brand focused on helping clients move forward through practical IT support, websites, hosting, software solutions, and consulting. Its identity is built around progress, reliability, and structured growth, expressed through a clean corporate-tech aesthetic, confident messaging, and a strong symbol of movement and partnership.
             </p>
-          </motion.div>
+          </m.div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -516,28 +563,7 @@ function App() {
                 color: "text-purple-600"
               }
             ].map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                whileHover={{ y: -5 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-              >
-                <Card className="h-full hover:shadow-lg transition-all duration-300 hover:border-primary/30 group">
-                  <CardHeader>
-                    <div className={`w-14 h-14 ${item.color.replace('text', 'bg')}/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                      <item.icon className={`h-7 w-7 ${item.color} transition-colors duration-300`} />
-                    </div>
-                    <CardTitle className="group-hover:text-primary transition-colors duration-300">{item.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-base group-hover:text-foreground/90 transition-colors duration-300">
-                      {item.description}
-                    </CardDescription>
-                  </CardContent>
-                </Card>
-              </motion.div>
+              <AboutCard key={index} {...item} index={index} />
             ))}
           </div>
         </div>
@@ -546,7 +572,7 @@ function App() {
       {/* Services Section */}
       <section id="services" className="py-20">
         <div className="container mx-auto px-4">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -557,30 +583,11 @@ function App() {
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               Our solutions are designed to meet our clients strategic and operation needs, which we develop and maintain
             </p>
-          </motion.div>
+          </m.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((service, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                whileHover={{ y: -5 }}
-              >
-                <Card className="h-full hover:shadow-xl transition-all duration-300 group">
-                  <CardHeader>
-                    <div className={`w-12 h-12 ${service.color} rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                      <service.icon className="h-6 w-6 text-white" />
-                    </div>
-                    <CardTitle className="text-lg">{service.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription>{service.description}</CardDescription>
-                  </CardContent>
-                </Card>
-              </motion.div>
+              <ServiceCard key={index} {...service} index={index} />
             ))}
           </div>
         </div>
@@ -589,7 +596,7 @@ function App() {
       {/* Process Section */}
         <section id="process" className="py-20">
           <div className="container mx-auto px-4">
-            <motion.div
+            <m.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -607,7 +614,7 @@ function App() {
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             A clear, no-surprises process that keeps you informed and in control.
           </p>
-            </motion.div>
+            </m.div>
 
             <div className="relative">
           <div className="hidden lg:block absolute top-[30px] left-[7%] right-[7%] h-px bg-gradient-to-r from-transparent via-border to-transparent" />
@@ -634,7 +641,7 @@ function App() {
             description: 'We go live together. Then we stick around - same-day response for any issues that arise.'
               }
             ].map((process, index) => (
-              <motion.div
+              <m.div
             key={index}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -651,7 +658,7 @@ function App() {
             <p className="text-muted-foreground text-base leading-relaxed">
               {process.description}
             </p>
-              </motion.div>
+              </m.div>
             ))}
           </div>
             </div>
@@ -671,7 +678,7 @@ function App() {
       {/* Contact Section */}
       <section id="contact" className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -690,10 +697,10 @@ function App() {
                       <TeamViewerDownload />
                     </Suspense>
                   </div>
-                  </motion.div>
+                  </m.div>
 
                   <div className="grid lg:grid-cols-2 gap-12">
-                  <motion.div
+                  <m.div
                     initial={{ opacity: 0, x: -50 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
@@ -824,9 +831,9 @@ function App() {
                       </form>
                     </CardContent>
                     </Card>
-                  </motion.div>
+                  </m.div>
 
-                  <motion.div
+                  <m.div
                     initial={{ opacity: 0, x: 50 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
@@ -882,7 +889,7 @@ function App() {
                       </div>
                     </CardContent>
                     </Card>
-                  </motion.div>
+                  </m.div>
                   </div>
                 </div>
                 </section>
@@ -1012,6 +1019,7 @@ function App() {
         <BackToTop />
       </Suspense>
     </div>
+    </LazyMotion>
   )
 }
 

@@ -122,3 +122,12 @@
 .motion-safe-gpu {
   will-change: transform, opacity;
 }
+
+section {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1000px;
+}
+
+#home {
+  content-visibility: visible;
+}
