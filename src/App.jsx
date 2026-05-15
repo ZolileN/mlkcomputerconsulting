@@ -1,5 +1,5 @@
-  import { useState, useEffect, useRef, useCallback } from 'react'
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
@@ -37,7 +37,6 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
-  const [isLoading, setIsLoading] = useState(true)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -57,16 +56,11 @@ function App() {
   const y2 = useTransform(scrollY, [0, 300], [0, -100])
 
   useEffect(() => {
-    // Loading animation
-    const timer = setTimeout(() => setIsLoading(false), 2000)
-    
     // Dark mode detection
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       setIsDarkMode(true)
       document.documentElement.classList.add('dark')
     }
-
-    return () => clearTimeout(timer)
   }, [])
 
   // Cache section positions
@@ -297,25 +291,6 @@ function App() {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="fixed inset-0 bg-background flex items-center justify-center z-50">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="text-center"
-        >
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"
-          />
-          <h2 className="text-2xl font-bold text-primary">MLK Computer</h2>
-          <p className="text-muted-foreground">Loading amazing experiences...</p>
-        </motion.div>
-      </div>
-    )
-  }
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
@@ -723,7 +698,7 @@ function App() {
             >
               <div className="overflow-hidden h-64">
                 <img 
-                  src="/18gm.png" 
+                  src="/18gm.webp" 
                   alt="18 GM Project" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
@@ -749,7 +724,7 @@ function App() {
             >
               <div className="overflow-hidden h-64">
                 <img 
-                  src="/andrea.png" 
+                  src="/andrea.webp" 
                   alt="Andrea Project" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
@@ -827,7 +802,7 @@ function App() {
             >
               <div className="overflow-hidden h-64">
                 <img 
-                  src="/obsido.png" 
+                  src="/obsido.webp" 
                   alt="obsido Project" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
